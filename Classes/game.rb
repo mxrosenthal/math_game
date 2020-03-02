@@ -1,8 +1,5 @@
 class Game
 
-  attr_accessor :game_over, :num_players, :count
-  attr_reader :num1, :num2, :comp_ans
-
   def initialize()
     @game_over = false
     @num_players = 2
@@ -24,7 +21,6 @@ class Game
 
   def game_loop
     while !@game_over
-      puts "Count is #{count}."
       player = @player_array[@count % 2].name
       x = new_turn(player)
       if x
@@ -57,7 +53,7 @@ class Game
     @num1 = rand(20)
     @num2 = rand(20)
     @comp_ans = @num1 + @num2
-    puts "#{person}: What is #{num1} + #{num2}?"
+    puts "#{person}: What is #{@num1} + #{@num2}?"
     @human_ans = gets.chomp.to_i
     return @human_ans === @comp_ans
   end
