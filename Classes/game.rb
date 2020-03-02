@@ -57,7 +57,7 @@ class Game
     @num1 = rand(20)
     @num2 = rand(20)
     @comp_ans = @num1 + @num2
-    puts "#{person}: What is #{num1} + #{num2}? Comp will say #{comp_ans}"
+    puts "#{person}: What is #{num1} + #{num2}?"
     @human_ans = gets.chomp.to_i
     return @human_ans === @comp_ans
   end
