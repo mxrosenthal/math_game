@@ -3,13 +3,13 @@ class Game
   attr_accessor :game_over, :num_players, :count
   attr_reader :num1, :num2, :comp_ans
 
-  def initialize(n)
+  def initialize()
     @game_over = false
-    @num_players = n
+    @num_players = 2
     @count = 0
     @player_array = []
     pick_players
-    start_game
+    game_loop
   end
 
   def pick_players
@@ -19,28 +19,24 @@ class Game
     puts "Enter player 1 name:"
     player2 = gets.chomp
     @p2 = Player.new(player2)
-    puts "player 1 is #{@p1}, player 2 is #{@p2}."
     @player_array.push(@p1).push(@p2)
-    puts "Player array is #{@player_array}."
   end
 
-  def start_game
+  def game_loop
     while !@game_over
       puts "Count is #{count}."
       player = @player_array[@count % 2].name
-      x = self.new_turn(player)
+      x = new_turn(player)
       if x
         puts "Correct! Good job, #{player}"
-        puts "#{@player_array[0].name}: #{@player_array[0].lives}/#{@player_array[0].total} vs. #{@player_array[1].name}: #{@player_array[1].lives}/#{@player_array[1].total}"
+        print_score
         @count += 1
       else
         puts "Wrong... #{player} loses a life."
-        # puts "#{player} had #{@player_array[@count % 2].lives}"
         @player_array[@count % 2].lose_life
-        # puts "Now #{player} has #{@player_array[@count % 2].lives}"
-        puts "#{@player_array[0].name}: #{@player_array[0].lives}/#{@player_array[0].total} vs. #{@player_array[1].name}: #{@player_array[1].lives}/#{@player_array[1].total}"
+        print_score
         if @player_array[@count % 2].lives === 0
-          self.end_game
+          end_game
         end
         @count += 1
       end
@@ -56,7 +52,6 @@ class Game
     puts "Good Bye!"
   end
 
-
   def new_turn(person)
     puts "---- NEW TURN ----"
     @num1 = rand(20)
@@ -64,12 +59,16 @@ class Game
     @comp_ans = @num1 + @num2
     puts "#{person}: What is #{num1} + #{num2}? Comp will say #{comp_ans}"
     @human_ans = gets.chomp.to_i
-    if @human_ans === @comp_ans
-      return true
-    else 
-      return false
-    end
+    return @human_ans === @comp_ans
   end
 
+  def print_score
+    @P1 = @player_array[0].name
+    @P2 = @player_array[1].name
+    @P1_score = @player_array[0].lives
+    @P2_score = @player_array[1].lives
+    @MAX = @player_array[0].total
+    puts "#{@P1}: #{@P1_score}/#{@MAX} vs. #{@P2}: #{@P2_score}/#{@MAX}"
+  end
 end
 
